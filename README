@@ -1,0 +1,21 @@
+a unite.vim plugin for rails
+unite-r
+
+建設予定地
+
+show routes 
+  :Unite r:r
+show controllers  
+  :Unite r:c
+show views  
+  :Unite r:v
+show models
+  :Unite r:m
+show configs
+  :Unite r:conf
+show javascripts  
+  :Unite r:js
+show logs
+  :Unite r:log
+show root
+  :Unite r:root

@@ -8,7 +8,7 @@ function! unite#sources#rails#define()
         \ ]
 endfunction
 
-let s:action_table = {'open' : {'description' : 'open model'}}
+let s:action_table = {'open' : {'description' : 'open file'}}
 function! s:action_table.open.func(candidate)
   execute 'edit! ' . a:candidate.source__path
 endfunction
@@ -34,52 +34,32 @@ let s:source_view = {
       \ }
 
 function! s:source_model.gather_candidates(args, context)
-  let root = s:rails_root()
-  if root == "" | return [] | end
-
-  let models = map(split(globpath(root . '/app/models' , '*.rb') , '\n') , '{
-          \ "name" : fnamemodify(v:val , ":t:r") ,
-          \ "path" : v:val
-          \ }')
-
-  return map(models , '{
-        \ "abbr"         : v:val.name ,
-        \ "word"         : v:val.name ,
-        \ "source__path" : v:val.path ,
-        \ }')
+  return s:create_sources('/app/models')
 endfunction
 
 function! s:source_controller.gather_candidates(args, context)
-  let root = s:rails_root()
-  if root == "" | return [] | end
-
-  let models = map(split(globpath(root . '/app/controllers' , '*.rb') , '\n') , '{
-          \ "name" : fnamemodify(v:val , ":t:r") ,
-          \ "path" : v:val
-          \ }')
-
-  return map(models , '{
-        \ "abbr"         : v:val.name ,
-        \ "word"         : v:val.name ,
-        \ "source__path" : v:val.path ,
-        \ }')
+  return s:create_sources('/app/controllers')
 endfunction
 
 function! s:source_view.gather_candidates(args, context)
+  return s:create_sources('/app/views')
+endfunction
+
+function! s:create_sources(path)
   let root = s:rails_root()
   if root == "" | return [] | end
-  let models = map(split(globpath(root . '/app/views' , '**') , '\n') , '{
+  let files = map(split(globpath(root . a:path , '**') , '\n') , '{
           \ "name" : fnamemodify(v:val , ":t:r") ,
           \ "path" : v:val
           \ }')
 
   let list = []
-  for m in models
-    if filereadable(m.path)
+  for f in files
+    if filereadable(f.path)
       call add(list , {
-        \ "abbr"         : substitute(m.path , root . '/app/views/' , '' , ''),
-        \ "word"         : substitute(m.path , root . '/app/views/' , '' , ''),
-        \ "source__path" : m.path ,
+        \ "abbr"         : substitute(f.path , root . a:path . '/' , '' , ''),
+        \ "word"         : substitute(f.path , root . a:path . '/' , '' , ''),
+        \ "source__path" : f.path ,
         \ })
     endif
   endfor

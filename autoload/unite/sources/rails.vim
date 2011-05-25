@@ -1,72 +1,23 @@
+
+let s:source = {
+\ }
+
+function! s:source.gather_candidates(args, context)
+  return s:create_sources(self.path)
+endfunction
+
 " source
 "
 function! unite#sources#rails#define()
-  return [
-        \ s:source_model ,
-        \ s:source_controller ,
-        \ s:source_view ,
-        \ s:source_db ,
-        \ s:source_config ,
-        \ ]
-endfunction
-
-let s:action_table = {'open' : {'description' : 'open file'}}
-function! s:action_table.open.func(candidate)
-  execute 'edit! ' . a:candidate.source__path
-endfunction
-
-"
-let s:source_model = {
-      \ 'name'           : 'rails/model' ,
-      \ 'description'    : 'candidates from model list' ,
-      \ 'default_action' : {'common' : 'open'} ,
-      \ 'action_table'   : {'common' : s:action_table}
-      \ }
-let s:source_controller = {
-      \ 'name'           : 'rails/controller' ,
-      \ 'description'    : 'candidates from controller list' ,
-      \ 'default_action' : {'common' : 'open'} ,
-      \ 'action_table'   : {'common' : s:action_table}
-      \ }
-let s:source_view = {
-      \ 'name'           : 'rails/view' ,
-      \ 'description'    : 'candidates from view list' ,
-      \ 'default_action' : {'common' : 'open'} ,
-      \ 'action_table'   : {'common' : s:action_table}
-      \ }
-
-let s:source_db = {
-      \ 'name'           : 'rails/db' ,
-      \ 'description'    : 'candidates from db list' ,
-      \ 'default_action' : {'common' : 'open'} ,
-      \ 'action_table'   : {'common' : s:action_table}
-      \ }
-
-let s:source_config = {
-      \ 'name'           : 'rails/config' ,
-      \ 'description'    : 'candidates from config list' ,
-      \ 'default_action' : {'common' : 'open'} ,
-      \ 'action_table'   : {'common' : s:action_table}
-      \ }
-
-function! s:source_model.gather_candidates(args, context)
-  return s:create_sources('/app/models')
-endfunction
-
-function! s:source_controller.gather_candidates(args, context)
-  return s:create_sources('/app/controllers')
-endfunction
-
-function! s:source_view.gather_candidates(args, context)
-  return s:create_sources('/app/views')
-endfunction
-
-function! s:source_db.gather_candidates(args, context)
-  return s:create_sources('/db')
-endfunction
-
-function! s:source_config.gather_candidates(args, context)
-  return s:create_sources('/config')
+  return map([{'name' : 'model'      , 'path': '/app/models'       } , 
+        \     {'name' : 'controller' , 'path' : '/app/controllers' } ,
+        \     {'name' : 'view'       , 'path' : '/app/views'       } ,
+        \     {'name' : 'db'         , 'path' : '/db'              } ,
+        \     {'name' : 'config'     , 'path' : '/config'          } ,
+        \    ],
+        \   'extend(copy(s:source),
+        \    extend(v:val, {"name": "rails/" . v:val.name,
+        \   "description": "candidates from history of " . v:val.name}))')
 endfunction
 
 function! s:create_sources(path)
@@ -83,7 +34,8 @@ function! s:create_sources(path)
       call add(list , {
         \ "abbr"         : substitute(f.path , root . a:path . '/' , '' , ''),
         \ "word"         : substitute(f.path , root . a:path . '/' , '' , ''),
-        \ "source__path" : f.path ,
+        \ "kind"         : "file" ,
+        \ "action__path" : f.path ,
         \ })
     endif
   endfor

@@ -79,7 +79,7 @@ function! s:create_sources(path)
 
   let list = []
   for f in files
-    if filereadable(f.path)
+    if !isdirectory(f.path)
       call add(list , {
         \ "abbr"         : substitute(f.path , root . a:path . '/' , '' , ''),
         \ "word"         : substitute(f.path , root . a:path . '/' , '' , ''),
@@ -92,16 +92,8 @@ function! s:create_sources(path)
 endfunction
 
 function! s:rails_root()
-  let dir = substitute(expand("%:p:h")," ","\\\\ ","g") 
-  while 1
-    let list = split(dir , '/')
-    if len(list) == 1
-      break
-    endif
-    let dir = join(list[:len(list) - 2] , '/')
-    if filereadable(dir . '/Gemfile') && filereadable(dir . '/config.ru')
-      return dir
-    endif
-  endwhile
-  return ""
+  " TODO
+  let dir = finddir("app" , ".;")
+  if dir == "" | return "" | endif
+  return  dir . "/../" 
 endfunction

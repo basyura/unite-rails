@@ -5,6 +5,8 @@ function! unite#sources#rails#define()
         \ s:source_model ,
         \ s:source_controller ,
         \ s:source_view ,
+        \ s:source_db ,
+        \ s:source_config ,
         \ ]
 endfunction
 
@@ -33,6 +35,20 @@ let s:source_view = {
       \ 'action_table'   : {'common' : s:action_table}
       \ }
 
+let s:source_db = {
+      \ 'name'           : 'rails/db' ,
+      \ 'description'    : 'candidates from db list' ,
+      \ 'default_action' : {'common' : 'open'} ,
+      \ 'action_table'   : {'common' : s:action_table}
+      \ }
+
+let s:source_config = {
+      \ 'name'           : 'rails/config' ,
+      \ 'description'    : 'candidates from config list' ,
+      \ 'default_action' : {'common' : 'open'} ,
+      \ 'action_table'   : {'common' : s:action_table}
+      \ }
+
 function! s:source_model.gather_candidates(args, context)
   return s:create_sources('/app/models')
 endfunction
@@ -43,6 +59,14 @@ endfunction
 
 function! s:source_view.gather_candidates(args, context)
   return s:create_sources('/app/views')
+endfunction
+
+function! s:source_db.gather_candidates(args, context)
+  return s:create_sources('/db')
+endfunction
+
+function! s:source_config.gather_candidates(args, context)
+  return s:create_sources('/config')
 endfunction
 
 function! s:create_sources(path)

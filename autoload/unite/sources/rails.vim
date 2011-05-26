@@ -1,16 +1,16 @@
 "
 let s:places =[
-      \ {'name' : 'model'       , 'path' : '/app/models'         } , 
-      \ {'name' : 'controller'  , 'path' : '/app/controllers'    } ,
-      \ {'name' : 'view'        , 'path' : '/app/views'          } ,
-      \ {'name' : 'helper'      , 'path' : '/app/helpers'        } ,
-      \ {'name' : 'mailer'      , 'path' : '/app/mailers'        } ,
-      \ {'name' : 'lib'         , 'path' : '/lib'                } ,
-      \ {'name' : 'db'          , 'path' : '/db'                 } ,
-      \ {'name' : 'config'      , 'path' : '/config'             } ,
-      \ {'name' : 'log'         , 'path' : '/log'                } ,
-      \ {'name' : 'javascripts' , 'path' : '/public/javascripts' } ,
-      \ {'name' : 'stylesheets' , 'path' : '/public/stylesheets' } ,
+      \ {'name' : 'model'      , 'path' : '/app/models'         } , 
+      \ {'name' : 'controller' , 'path' : '/app/controllers'    } ,
+      \ {'name' : 'view'       , 'path' : '/app/views'          } ,
+      \ {'name' : 'helper'     , 'path' : '/app/helpers'        } ,
+      \ {'name' : 'mailer'     , 'path' : '/app/mailers'        } ,
+      \ {'name' : 'lib'        , 'path' : '/lib'                } ,
+      \ {'name' : 'db'         , 'path' : '/db'                 } ,
+      \ {'name' : 'config'     , 'path' : '/config'             } ,
+      \ {'name' : 'log'        , 'path' : '/log'                } ,
+      \ {'name' : 'javascript' , 'path' : '/public/javascripts' } ,
+      \ {'name' : 'stylesheet' , 'path' : '/public/stylesheets' } ,
       \  ]
 
 let s:source = {}

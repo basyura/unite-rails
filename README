@@ -1,21 +1,48 @@
 a unite.vim plugin for rails
-unite-r
 
-建設予定地
 
-show routes 
-  :Unite r:r
-show controllers  
-  :Unite r:c
-show views  
-  :Unite r:v
-show models
-  :Unite r:m
-show configs
-  :Unite r:conf
-show javascripts  
-  :Unite r:js
-show logs
-  :Unite r:log
-show root
-  :Unite r:root
+unite /app/models
+  :Unite rails/model
+
+unite /app/controllers
+  :Unite rails/controller
+
+unite /app/views
+  :Unite rails/view
+
+unite /app/helpers
+  :Unite rails/helper
+
+unite /app/mailers
+  :Unite rails/mailer
+
+unite /lib
+  :Unite rails/lib
+
+unite /db
+  :Unite rails/db
+
+unite /config
+  :Unite rails/config
+
+unite /log
+  :Unite rails/log
+
+unite /public/javascripts
+  :Unite rails/javascripts
+
+unite /public/stylesheets
+  :Unite rails/stylesheets
+
+
+== maybe ==
+
+  unite routes 
+    :Unite rails/routes
+
+  unite root
+    :Unite rails/root
+
+  unite command
+    :Unite rails/command
+      > rake db:migrate

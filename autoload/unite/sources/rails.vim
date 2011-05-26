@@ -20,6 +20,13 @@ function! s:source.gather_candidates(args, context)
   return s:create_sources(self.path)
 endfunction
 "
+" rails/command
+"   history
+"   [command] rake
+"
+let s:source_command = {}
+
+"
 "
 function! unite#sources#rails#define()
   return map(s:places ,

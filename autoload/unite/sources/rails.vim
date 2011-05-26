@@ -1,25 +1,34 @@
+"
+let s:places =[
+      \ {'name' : 'model'       , 'path' : '/app/models'         } , 
+      \ {'name' : 'controller'  , 'path' : '/app/controllers'    } ,
+      \ {'name' : 'view'        , 'path' : '/app/views'          } ,
+      \ {'name' : 'helper'      , 'path' : '/app/helpers'        } ,
+      \ {'name' : 'mailer'      , 'path' : '/app/mailers'        } ,
+      \ {'name' : 'lib'         , 'path' : '/lib'                } ,
+      \ {'name' : 'db'          , 'path' : '/db'                 } ,
+      \ {'name' : 'config'      , 'path' : '/config'             } ,
+      \ {'name' : 'log'         , 'path' : '/log'                } ,
+      \ {'name' : 'javascripts' , 'path' : '/public/javascripts' } ,
+      \ {'name' : 'stylesheets' , 'path' : '/public/stylesheets' } ,
+      \  ]
 
-let s:source = {
-\ }
-
+let s:source = {}
+"
+"
 function! s:source.gather_candidates(args, context)
   return s:create_sources(self.path)
 endfunction
-
-" source
+"
 "
 function! unite#sources#rails#define()
-  return map([{'name' : 'model'      , 'path': '/app/models'       } , 
-        \     {'name' : 'controller' , 'path' : '/app/controllers' } ,
-        \     {'name' : 'view'       , 'path' : '/app/views'       } ,
-        \     {'name' : 'db'         , 'path' : '/db'              } ,
-        \     {'name' : 'config'     , 'path' : '/config'          } ,
-        \    ],
+  return map(s:places ,
         \   'extend(copy(s:source),
         \    extend(v:val, {"name": "rails/" . v:val.name,
         \   "description": "candidates from history of " . v:val.name}))')
 endfunction
-
+"
+"
 function! s:create_sources(path)
   let root = s:rails_root()
   if root == "" | return [] | end
@@ -30,19 +39,20 @@ function! s:create_sources(path)
 
   let list = []
   for f in files
-    if !isdirectory(f.path)
-      call add(list , {
-        \ "abbr"         : substitute(f.path , root . a:path . '/' , '' , ''),
-        \ "word"         : substitute(f.path , root . a:path . '/' , '' , ''),
-        \ "kind"         : "file" ,
-        \ "action__path" : f.path ,
-        \ })
-    endif
+    if isdirectory(f.path) | continue | endif
+    call add(list , {
+          \ "abbr" : substitute(f.path , root . a:path . '/' , '' , ''),
+          \ "word" : substitute(f.path , root . a:path . '/' , '' , ''),
+          \ "kind" : "file" ,
+          \ "action__path"      : f.path ,
+          \ "action__directory" : fnamemodify(f.path , ':p:h:h') ,
+          \ })
   endfor
 
   return list
 endfunction
-
+"
+"
 function! s:rails_root()
   " TODO
   let dir = finddir("app" , ".;")

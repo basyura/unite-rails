@@ -64,7 +64,7 @@ function! s:create_sources(source)
           \ "word" : f.name ,
           \ "kind" : "file" ,
           \ "action__path"      : f.path ,
-          \ "action__directory" : fnamemodify(f.path , ':p:h:h') ,
+          \ "action__directory" : fnamemodify(f.path , ':p:h') ,
           \ })
   endfor
 

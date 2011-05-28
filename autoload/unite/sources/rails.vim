@@ -34,7 +34,7 @@ function! unite#sources#rails#define()
   return map(s:places ,
         \   'extend(copy(s:source),
         \    extend(v:val, {"name": "rails/" . v:val.name,
-        \   "description": "candidates from history of " . v:val.name}))')
+        \   "description": "candidates from " . v:val.name}))')
 endfunction
 "
 "

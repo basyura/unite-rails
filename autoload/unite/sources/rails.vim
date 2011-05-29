@@ -19,13 +19,66 @@ let s:places =[
   \ {'name' : 'log'         , 'type' : 'dir'  , 'path' : '/log'                 } ,
   \ {'name' : 'javascript'  , 'type' : 'dir'  , 'path' : '/public/javascripts'  } ,
   \ {'name' : 'stylesheet'  , 'type' : 'dir'  , 'path' : '/public/stylesheets'  } ,
-  \ {'name' : 'rake'        , 'type' : 'cmd'  , 'cmd'  : [
-      \ 'about' , 'db:create' , 'db:drop' , 'db:fixtures:load' , 'db:migrate' ,
-      \ 'db:migrate:status' , 'db:rollback' , 'db:schema:dump' , 'db:schema:load' ,
-      \ 'db:seed' , 'db:setup' , 'db:structure:dump' , 'db:version' , 'doc:app' ,
-      \ 'log:clear' , 'middleware' , 'notes' , 'notes:custom' , 'rails:template' ,
-      \ 'rails:update' , 'routes' , 'secret' , 'stats' , 'test' , 'test:recent' ,
-      \ 'test:uncommitted' , 'time:zones:all' , 'tmp:clear' , 'tmp:create'
+  \ {'name' : 'rake'        , 'type' : 'cmd'  , 'cmd'  : 'rake' ,
+      \'arguments' : [
+      \ {'word' : 'about'             , 
+      \  'abbr' : "about              - List versions of all Rails frameworks and the environment"},
+      \ {'word' : 'db:create'         ,
+      \  'abbr' : "db:create          - Create the database from config/database.yml for the current Rails.env (use db:create:all to create all dbs in the config)"},
+      \ {'word' : 'db:drop'           ,
+      \  'abbr' : "db:drop            - Drops the database for the current Rails.env (use db:drop:all to drop all databases)"},
+      \ {'word' : 'db:fixtures:load'  ,
+      \  'abbr' : "db:fixtures:load   - Load fixtures into the current environment's database."},
+      \ {'word' : 'db:migrate'        ,
+      \  'abbr' : "db:migrate         - Migrate the database (options: VERSION=x, VERBOSE=false)."},
+      \ {'word' : 'db:migrate:status' ,
+      \  'abbr' : "db:migrate:status  - Display status of migrations"},
+      \ {'word' : 'db:rollback'       ,
+      \  'abbr' : "db:rollback        - Rolls the schema back to the previous version (specify steps w/ STEP=n)."},
+      \ {'word' : 'db:schema:dump'    ,
+      \  'abbr' : "db:schema:dump     - Create a db/schema.rb file that can be portably used against any DB supported by AR"},
+      \ {'word' : 'db:schema:load'    ,
+      \  'abbr' : "db:schema:load     - Load a schema.rb file into the database"},
+      \ {'word' : 'db:seed'           ,
+      \  'abbr' : "db:seed            - Load the seed data from db/seeds.rb"},
+      \ {'word' : 'db:setup'          ,
+      \  'abbr' : "db:setup           - Create the database, load the schema, and initialize with the seed data (use db:reset to also drop the db first)"},
+      \ {'word' : 'db:structure:dump' ,
+      \  'abbr' : "db:structure:dump  - Dump the database structure to an SQL file"},
+      \ {'word' : 'db:version'        ,
+      \  'abbr' : "db:version         - Retrieves the current schema version number"},
+      \ {'word' : 'doc:app'           ,
+      \  'abbr' : 'doc:app            - Generate docs for the app -- also availble doc:rails, doc:guides, doc:plugins (options: TEMPLATE=/rdoc-template.rb, TITLE="Custom Title")'},
+      \ {'word' : 'log:clear'         ,
+      \  'abbr' : "log:clear          - Truncates all *.log files in log/ to zero bytes"},
+      \ {'word' : 'middleware'        ,
+      \  'abbr' : "middleware         - Prints out your Rack middleware stack"},
+      \ {'word' : 'notes'             ,
+      \  'abbr' : "notes              - Enumerate all annotations (use notes:optimize, :fixme, :todo for focus)"},
+      \ {'word' : 'notes:custom'      ,
+      \  'abbr' : "notes:custom       - Enumerate a custom annotation, specify with ANNOTATION=CUSTOM"},
+      \ {'word' : 'rails:template'    ,
+      \  'abbr' : "rails:template     - Applies the template supplied by LOCATION=/path/to/template"},
+      \ {'word' : 'rails:update'      ,
+      \  'abbr' : "rails:update       - Update both configs and public/javascripts from Rails (or use just update:javascripts or update:configs)"},
+      \ {'word' : 'routes'            ,
+      \  'abbr' : "routes             - Print out all defined routes in match order, with names."},
+      \ {'word' : 'secret'            ,
+      \  'abbr' : "secret             - Generate a cryptographically secure secret key (this is typically used to generate a secret for cookie sessions)."},
+      \ {'word' : 'stats'             ,
+      \  'abbr' : "stats              - Report code statistics (KLOCs, etc) from the application"},
+      \ {'word' : 'test'              ,
+      \  'abbr' : "test               - Runs test:units, test:functionals, test:integration together (also available: test:benchmark, test:profile, test:plugins)"},
+      \ {'word' : 'test:recent'       ,
+      \  'abbr' : 'test:recent        - Run tests for {:recent=>"test:prepare"} / Test recent changes'},
+      \ {'word' : 'test:uncommitted'  ,
+      \  'abbr' : 'test:uncommitted   - Run tests for {:uncommitted=>"test:prepare"} / Test changes since last checkin (only Subversion and Git)'},
+      \ {'word' : 'time:zones:all'    ,
+      \  'abbr' : "time:zones:all     - Displays all time zones, also available: time:zones:us, time:zones:local -- filter with OFFSET parameter, e.g., OFFSET=-6"},
+      \ {'word' : 'tmp:clear'         ,
+      \  'abbr' : "tmp:clear          - Clear session, cache, and socket files from tmp/ (narrow w/ tmp:sessions:clear, tmp:cache:clear, tmp:sockets:clear)"},
+      \ {'word' : 'tmp:create'        ,
+      \  'abbr' : "tmp:create         - Creates tmp directories for sessions, cache, sockets, and pids"},
       \ ] } ,
   \  ]
 
@@ -38,7 +91,6 @@ endfunction
 "
 "
 let s:source_command = {}
-
 "
 "
 function! unite#sources#rails#define()
@@ -91,10 +143,11 @@ endfunction
 "
 "
 function! s:create_sources_with_cmd(source, root)
-  return map(a:source.cmd , '{
-        \ "word" : v:val ,
+  return map(a:source.arguments , '{
+        \ "word" : v:val.word ,
+        \ "abbr" : v:val.abbr ,
         \ "kind" : "command" ,
-        \ "action__command"   : "rake " . v:val ,
+        \ "action__command"   : "VimShellExecute " . a:source.cmd . " " . v:val.word ,
         \ }')
 endfunction
 "

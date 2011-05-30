@@ -4,7 +4,9 @@
 "     [command] rake
 "
 "	  immediately
-"
+
+call unite#util#set_default('g:unite_rails_execute_cmd'  , 'VimShellExecute')
+
 let s:places =[
   \ {'name' : 'model'       , 'type' : 'dir'  , 'path' : '/app/models'          } , 
   \ {'name' : 'controller'  , 'type' : 'dir'  , 'path' : '/app/controllers'     } ,
@@ -153,9 +155,19 @@ function! s:create_sources_with_cmd(source, root)
         \ "word" : v:val.word ,
         \ "abbr" : v:val.abbr ,
         \ "kind" : "command" ,
-        \ "action__command"   : "VimShellExecute " . a:source.cmd . " " . v:val.word ,
+        \ "action__command" : s:execute_cmd() . a:source.cmd . " " . v:val.word ,
         \ }')
 endfunction
+"
+"
+function! s:execute_cmd()
+  if g:unite_rails_execute_cmd == '!'
+    return '!'
+  else
+    return g:unite_rails_execute_cmd . ' '
+  endif
+endfunction
+
 "
 "
 function! s:rails_root()

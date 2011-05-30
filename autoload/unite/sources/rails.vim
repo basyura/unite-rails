@@ -88,6 +88,24 @@ let s:places =[
       \ {'word' : 'tmp:create'        ,
       \  'abbr' : "tmp:create         - Creates tmp directories for sessions, cache, sockets, and pids"},
       \ ] } ,
+  \ {'name' : 'generate'    , 'type' : 'cmd_input'  , 'cmd'  : 'rails generate' ,
+      \'arguments' : [
+      \ {'word' : 'controller'          },
+      \ {'word' : 'generator'           },
+      \ {'word' : 'helper'              },
+      \ {'word' : 'integration_test'    },
+      \ {'word' : 'mailer'              },
+      \ {'word' : 'migration'           },
+      \ {'word' : 'model'               },
+      \ {'word' : 'observer'            },
+      \ {'word' : 'performance_test'    },
+      \ {'word' : 'plugin'              },
+      \ {'word' : 'resource'            },
+      \ {'word' : 'scaffold'            },
+      \ {'word' : 'scaffold_controller' },
+      \ {'word' : 'session_migration'   },
+      \ {'word' : 'stylesheets'         },
+      \ ] } ,
   \  ]
 
 let s:source = {}
@@ -119,6 +137,8 @@ function! s:create_sources(source)
     return s:create_sources_with_file(a:source , root)
   elseif type == 'cmd'
     return s:create_sources_with_cmd(a:source , root)
+  elseif type == 'cmd_input'
+    return s:create_sources_with_cmd_input(a:source , root)
   else 
    return []
   endif
@@ -153,10 +173,31 @@ endfunction
 function! s:create_sources_with_cmd(source, root)
   return map(a:source.arguments , '{
         \ "word" : v:val.word ,
-        \ "abbr" : v:val.abbr ,
+        \ "abbr" : has_key(v:val , "abbr") ? v:val.abbr : v:val.word ,
         \ "kind" : "command" ,
         \ "action__command" : s:execute_cmd() . a:source.cmd . " " . v:val.word ,
         \ }')
+endfunction
+"
+"
+function! s:create_sources_with_cmd_input(source, root)
+  return map(a:source.arguments , '{
+        \ "word" : v:val.word ,
+        \ "abbr" : has_key(v:val , "abbr") ? v:val.abbr : v:val.word ,
+        \ "kind" : "command" ,
+        \ "action__command" : s:create_cmd_input(a:source.cmd , v:val.word) , 
+        \ }')
+endfunction
+"
+"
+function! s:create_cmd_input(cmd, word)
+  return "call unite#sources#rails#execute_cmd_input('". a:.cmd . "','" . a:word . "')"
+endfunction
+"
+"
+function! unite#sources#rails#execute_cmd_input(cmd, word)
+  let name = input(a:word . " name : ")
+  execute s:execute_cmd() . ' ' . a:cmd . ' ' . a:word . ' ' . name
 endfunction
 "
 "
@@ -167,7 +208,6 @@ function! s:execute_cmd()
     return g:unite_rails_execute_cmd . ' '
   endif
 endfunction
-
 "
 "
 function! s:rails_root()

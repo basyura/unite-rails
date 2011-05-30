@@ -106,6 +106,24 @@ let s:places =[
       \ {'word' : 'session_migration'   },
       \ {'word' : 'stylesheets'         },
       \ ] } ,
+  \ {'name' : 'destroy'     , 'type' : 'cmd_input'  , 'cmd'  : 'rails destroy' ,
+      \'arguments' : [
+      \ {'word' : 'controller'          },
+      \ {'word' : 'generator'           },
+      \ {'word' : 'helper'              },
+      \ {'word' : 'integration_test'    },
+      \ {'word' : 'mailer'              },
+      \ {'word' : 'migration'           },
+      \ {'word' : 'model'               },
+      \ {'word' : 'observer'            },
+      \ {'word' : 'performance_test'    },
+      \ {'word' : 'plugin'              },
+      \ {'word' : 'resource'            },
+      \ {'word' : 'scaffold'            },
+      \ {'word' : 'scaffold_controller' },
+      \ {'word' : 'session_migration'   },
+      \ {'word' : 'stylesheets'         },
+      \ ] } ,
   \  ]
 
 let s:source = {}

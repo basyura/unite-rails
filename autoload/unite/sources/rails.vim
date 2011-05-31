@@ -20,7 +20,8 @@ let s:places =[
   \ {'name' : 'log'         , 'type' : 'dir'  , 'path' : '/log'                 } ,
   \ {'name' : 'javascript'  , 'type' : 'dir'  , 'path' : '/public/javascripts'  } ,
   \ {'name' : 'stylesheet'  , 'type' : 'dir'  , 'path' : '/public/stylesheets'  } ,
-  \ {'name' : 'routes'      , 'type' : 'file' , 'path' : '/config/routes.rb'    } ,
+  \ {'name' : 'route'       , 'type' : 'file' , 'path' : '/config/routes.rb'    } ,
+  \ {'name' : 'schema'      , 'type' : 'file' , 'path' : '/db/schema.rb'        } ,
   \ {'name' : 'rake'        , 'type' : 'cmd'  , 'cmd'  : 'rake' ,
       \'arguments' : [
       \ {'word' : '--tasks'           ,
@@ -214,8 +215,11 @@ endfunction
 "
 "
 function! unite#sources#rails#execute_cmd_input(cmd, word)
-  let name = input(a:word . " name : ")
-  execute s:execute_cmd() . ' ' . a:cmd . ' ' . a:word . ' ' . name
+  let msg = input(a:word . " name : ")
+  if msg == ''
+    echo 'abort' | return
+  endif
+  execute s:execute_cmd() . ' ' . a:cmd . ' ' . a:word . ' ' . msg
 endfunction
 "
 "

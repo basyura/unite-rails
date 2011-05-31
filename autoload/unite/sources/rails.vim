@@ -172,10 +172,12 @@ function! s:gather_candidates_file(source, root)
   let target = a:root . a:source.path
 
   if isdirectory(target)
-    let files = map(split(globpath(target , '**/*.*') , '\n') , '{
-          \ "name" : substitute(v:val , target . "/" , "" , "") ,
-          \ "path" : v:val
-          \ }')
+    let files = []
+    for f in split(globpath(target , '**/*.*') , '\n')
+      if isdirectory(f) | continue | endif
+      call add(files , 
+            \ {'name' : substitute(f , target . "/" , "" , "") , 'path' : f })
+    endfor
   else
     let files = [{
           \ "name" : fnamemodify(target , ":t") ,

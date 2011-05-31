@@ -148,7 +148,10 @@ endfunction
 "
 function! s:create_sources(source)
   let root = s:rails_root()
-  if root == "" | return [] | end
+  if root == "" 
+    redraw
+    echohl ErrorMsg | echo 'RailsRoot is not exist.' | echohl None | return [] 
+  end
 
   let type = a:source.type
 

@@ -129,14 +129,7 @@ let s:places =[
 
 let s:source = {}
 "
-"
-function! s:source.gather_candidates(args, context)
-  return s:create_sources(self)
-endfunction
-"
-"
-let s:source_command = {}
-"
+" define sources
 "
 function! unite#sources#rails#define()
   return map(s:places ,
@@ -145,8 +138,14 @@ function! unite#sources#rails#define()
         \   "description": "candidates from " . v:val.name}))')
 endfunction
 "
+" gather candidates
 "
-function! s:create_sources(source)
+function! s:source.gather_candidates(args, context)
+  return s:gather_candidates(self)
+endfunction
+"
+"
+function! s:gather_candidates(source)
   let root = s:rails_root()
   if root == "" 
     redraw
@@ -156,19 +155,20 @@ function! s:create_sources(source)
   let type = a:source.type
 
   if type == 'dir' || type == 'file'
-    return s:create_sources_with_file(a:source , root)
+    return s:gather_candidates_file(a:source , root)
   elseif type == 'cmd'
-    return s:create_sources_with_cmd(a:source , root)
+    return s:gather_candidates_cmd(a:source , root)
   elseif type == 'cmd_input'
-    return s:create_sources_with_cmd_input(a:source , root)
+    return s:gather_candidates_cmd_input(a:source , root)
   else 
    return []
   endif
 
 endfunction
 "
+" gather file candidates
 "
-function! s:create_sources_with_file(source, root)
+function! s:gather_candidates_file(source, root)
   let target = a:root . a:source.path
 
   if isdirectory(target)
@@ -191,8 +191,9 @@ function! s:create_sources_with_file(source, root)
           \ }')
 endfunction
 "
+" gather cmd candidates
 "
-function! s:create_sources_with_cmd(source, root)
+function! s:gather_candidates_cmd(source, root)
   return map(a:source.arguments , '{
         \ "word" : v:val.word ,
         \ "abbr" : has_key(v:val , "abbr") ? v:val.abbr : v:val.word ,
@@ -201,8 +202,9 @@ function! s:create_sources_with_cmd(source, root)
         \ }')
 endfunction
 "
+" gather cmd input candidates
 "
-function! s:create_sources_with_cmd_input(source, root)
+function! s:gather_candidates_cmd_input(source, root)
   return map(a:source.arguments , '{
         \ "word" : v:val.word ,
         \ "abbr" : has_key(v:val , "abbr") ? v:val.abbr : v:val.word ,
@@ -234,6 +236,7 @@ function! s:execute_cmd()
   endif
 endfunction
 "
+" get rails root directory
 "
 function! s:rails_root()
   " TODO

@@ -125,6 +125,17 @@ let s:places =[
       \ {'word' : 'session_migration'   },
       \ {'word' : 'stylesheets'         },
       \ ] } ,
+  \ {'name' : 'bundle'      , 'type' : 'cmd'  , 'cmd'  : 'bundle' ,
+      \'arguments' : [
+      \ {'word' : 'install'  ,
+      \  'abbr' : 'install   - Install the gems specified by the Gemfile or Gemfile.lock'},
+      \ {'word' : 'update'   ,
+      \  'abbr' : 'update    - Update dependencies to their latest versions'},
+      \ {'word' : 'package'  ,
+      \  'abbr' : 'package   - Package the .gem files required by  your  application  into  the vendor/cache directory'},
+      \ {'word' : 'config'   ,
+      \  'abbr' : 'config    - Specify and read configuration options for bundler'},
+      \ ] } ,
   \  ]
 
 let s:source = {}
@@ -222,7 +233,7 @@ endfunction
 "
 "
 function! unite#sources#rails#execute_cmd_input(cmd, word)
-  let msg = input(a:word . " name : ")
+  let msg = input(a:word . " : ")
   if msg == ''
     echo 'abort' | return
   endif

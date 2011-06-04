@@ -22,6 +22,7 @@ let s:places =[
   \ {'name' : 'stylesheet'  , 'type' : 'dir'  , 'path' : '/public/stylesheets'  } ,
   \ {'name' : 'route'       , 'type' : 'file' , 'path' : '/config/routes.rb'    } ,
   \ {'name' : 'schema'      , 'type' : 'file' , 'path' : '/db/schema.rb'        } ,
+  \ {'name' : 'gemfile'     , 'type' : 'file' , 'path' : '/Gemfile'             } ,
   \ {'name' : 'rake'        , 'type' : 'cmd'  , 'cmd'  : 'rake' ,
       \'arguments' : [
       \ {'word' : '--tasks'           ,
@@ -106,6 +107,7 @@ let s:places =[
       \ {'word' : 'scaffold_controller' },
       \ {'word' : 'session_migration'   },
       \ {'word' : 'stylesheets'         },
+      \ {'word' : 'jquery:install'      },
       \ ] } ,
   \ {'name' : 'destroy'     , 'type' : 'cmd_input'  , 'cmd'  : 'rails destroy' ,
       \'arguments' : [
@@ -135,6 +137,12 @@ let s:places =[
       \  'abbr' : 'package   - Package the .gem files required by  your  application  into  the vendor/cache directory'},
       \ {'word' : 'config'   ,
       \  'abbr' : 'config    - Specify and read configuration options for bundler'},
+      \ ] } ,
+  \ {'name' : 'heroku'      , 'type' : 'cmd'  , 'cmd'  : 'heroku' ,
+      \'arguments' : [
+      \ ] } ,
+  \ {'name' : 'git'         , 'type' : 'cmd'  , 'cmd'  : 'git' ,
+      \'arguments' : [
       \ ] } ,
   \  ]
 

@@ -144,6 +144,9 @@ let s:places =[
   \ {'name' : 'git'         , 'type' : 'cmd'  , 'cmd'  : 'git' ,
       \'arguments' : [
       \ ] } ,
+  \ {'name' : 'gem'         , 'type' : 'cmd'  , 'cmd'  : 'gem' ,
+      \'arguments' : [
+      \ ] } ,
   \  ]
 
 let s:source = {}

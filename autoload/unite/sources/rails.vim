@@ -185,7 +185,7 @@ function! unite#sources#rails#define()
   let list = []
   for val in names
     let source = copy(s:source)
-    let source.description = {"unite#sources#rails#" . val . "#description"}()
+    let source.description = "candidates from " . val . " list"
     let source.name =  "rails/" . val
     call add(list , source)
   endfor

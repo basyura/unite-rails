@@ -1,10 +1,4 @@
 "
-" source's description
-"
-function! unite#sources#rails#controller#description()
-  return "candidates from controller list"
-endfunction
-"
 " gather candidates
 "
 function! unite#sources#rails#controller#candidates(source)

@@ -239,12 +239,12 @@ endfunction
 "
 " gather cmd candidates
 "
-function! unite#sources#rails#gather_candidates_cmd(source, root)
-  return map(a:source.arguments , '{
+function! unite#sources#rails#gather_candidates_cmd(command, arguments)
+  return map(a:arguments , '{
         \ "word" : v:val.word ,
         \ "abbr" : has_key(v:val , "abbr") ? v:val.abbr : v:val.word ,
         \ "kind" : "command" ,
-        \ "action__command" : s:execute_cmd() . a:source.cmd . " " . v:val.word ,
+        \ "action__command" : s:execute_cmd() . a:command . " " . v:val.word ,
         \ }')
 endfunction
 "

@@ -8,8 +8,6 @@
 " 
 "
 " autoload/unite/sources/rails/model.vim
-"   unite#sources#rails#model#description
-"     => list for model
 "   unite#sources#rails#model#candidates
 "     [
 "       {  
@@ -32,18 +30,6 @@
 call unite#util#set_default('g:unite_rails_execute_cmd'  , 'VimShellExecute')
 
 let s:places =[
-  \ {'name' : 'model'       , 'type' : 'dir'  , 'path' : '/app/models'          } , 
-  \ {'name' : 'controller'  , 'type' : 'dir'  , 'path' : '/app/controllers'     } ,
-  \ {'name' : 'view'        , 'type' : 'dir'  , 'path' : '/app/views'           } ,
-  \ {'name' : 'helper'      , 'type' : 'dir'  , 'path' : '/app/helpers'         } ,
-  \ {'name' : 'mailer'      , 'type' : 'dir'  , 'path' : '/app/mailers'         } ,
-  \ {'name' : 'lib'         , 'type' : 'dir'  , 'path' : '/lib'                 } ,
-  \ {'name' : 'db'          , 'type' : 'dir'  , 'path' : '/db'                  } ,
-  \ {'name' : 'config'      , 'type' : 'dir'  , 'path' : '/config'              } ,
-  \ {'name' : 'initializer' , 'type' : 'dir'  , 'path' : '/config/initializers' } ,
-  \ {'name' : 'log'         , 'type' : 'dir'  , 'path' : '/log'                 } ,
-  \ {'name' : 'javascript'  , 'type' : 'dir'  , 'path' : '/public/javascripts'  } ,
-  \ {'name' : 'stylesheet'  , 'type' : 'dir'  , 'path' : '/public/stylesheets'  } ,
   \ {'name' : 'route'       , 'type' : 'file' , 'path' : '/config/routes.rb'    } ,
   \ {'name' : 'schema'      , 'type' : 'file' , 'path' : '/db/schema.rb'        } ,
   \ {'name' : 'gemfile'     , 'type' : 'file' , 'path' : '/Gemfile'             } ,

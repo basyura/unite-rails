@@ -1,11 +1,3 @@
-" TODO
-"   rails/command
-"     history
-"     [command] rake
-"
-"	  immediately
-"
-" 
 "
 " autoload/unite/sources/rails/model.vim
 "   unite#sources#rails#model#candidates
@@ -29,18 +21,6 @@
 
 call unite#util#set_default('g:unite_rails_execute_cmd'  , 'VimShellExecute')
 
-let s:places =[
-  \ {'name' : 'heroku'      , 'type' : 'cmd'  , 'cmd'  : 'heroku' ,
-      \'arguments' : [
-      \ ] } ,
-  \ {'name' : 'git'         , 'type' : 'cmd'  , 'cmd'  : 'git' ,
-      \'arguments' : [
-      \ ] } ,
-  \ {'name' : 'gem'         , 'type' : 'cmd'  , 'cmd'  : 'gem' ,
-      \'arguments' : [
-      \ ] } ,
-  \  ]
-
 let s:source = {}
 "
 " define sources
@@ -57,7 +37,6 @@ function! unite#sources#rails#define()
     let source.name =  "rails/" . val
     call add(list , source)
   endfor
-
   return list
 endfunction
 "
@@ -81,19 +60,6 @@ function! s:gather_candidates(source)
   let func_name = "unite#sources#rails#" . 
         \ substitute(a:source.name , 'rails/' , '' , '') . "#candidates"
   return {func_name}(a:source)
-
-  "let type = a:source.type
-
-  "if type == 'dir' || type == 'file'
-    "return s:gather_candidates_file(a:source , root)
-  "elseif type == 'cmd'
-    "return s:gather_candidates_cmd(a:source , root)
-  "elseif type == 'cmd_input'
-    "return s:gather_candidates_cmd_input(a:source , root)
-  "else 
-   "return []
-  "endif
-
 endfunction
 "
 " gather file candidates

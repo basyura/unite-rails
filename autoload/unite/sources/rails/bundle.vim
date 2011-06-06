@@ -1,4 +1,4 @@
- let s:arguments = [
+let s:arguments = [
       \ {'word' : 'install'  ,
       \  'abbr' : 'install   - Install the gems specified by the Gemfile or Gemfile.lock'},
       \ {'word' : 'update'   ,

@@ -97,25 +97,6 @@ let s:places =[
       \ {'word' : 'tmp:create'        ,
       \  'abbr' : "tmp:create         - Creates tmp directories for sessions, cache, sockets, and pids"},
       \ ] } ,
-  \ {'name' : 'generate'    , 'type' : 'cmd_input'  , 'cmd'  : 'rails generate' ,
-      \'arguments' : [
-      \ {'word' : 'controller'          },
-      \ {'word' : 'generator'           },
-      \ {'word' : 'helper'              },
-      \ {'word' : 'integration_test'    },
-      \ {'word' : 'mailer'              },
-      \ {'word' : 'migration'           },
-      \ {'word' : 'model'               },
-      \ {'word' : 'observer'            },
-      \ {'word' : 'performance_test'    },
-      \ {'word' : 'plugin'              },
-      \ {'word' : 'resource'            },
-      \ {'word' : 'scaffold'            },
-      \ {'word' : 'scaffold_controller' },
-      \ {'word' : 'session_migration'   },
-      \ {'word' : 'stylesheets'         },
-      \ {'word' : 'jquery:install'      },
-      \ ] } ,
   \ {'name' : 'destroy'     , 'type' : 'cmd_input'  , 'cmd'  : 'rails destroy' ,
       \'arguments' : [
       \ {'word' : 'controller'          },
@@ -133,17 +114,6 @@ let s:places =[
       \ {'word' : 'scaffold_controller' },
       \ {'word' : 'session_migration'   },
       \ {'word' : 'stylesheets'         },
-      \ ] } ,
-  \ {'name' : 'bundle'      , 'type' : 'cmd'  , 'cmd'  : 'bundle' ,
-      \'arguments' : [
-      \ {'word' : 'install'  ,
-      \  'abbr' : 'install   - Install the gems specified by the Gemfile or Gemfile.lock'},
-      \ {'word' : 'update'   ,
-      \  'abbr' : 'update    - Update dependencies to their latest versions'},
-      \ {'word' : 'package'  ,
-      \  'abbr' : 'package   - Package the .gem files required by  your  application  into  the vendor/cache directory'},
-      \ {'word' : 'config'   ,
-      \  'abbr' : 'config    - Specify and read configuration options for bundler'},
       \ ] } ,
   \ {'name' : 'heroku'      , 'type' : 'cmd'  , 'cmd'  : 'heroku' ,
       \'arguments' : [
@@ -250,12 +220,12 @@ endfunction
 "
 " gather cmd input candidates
 "
-function! unite#sources#rails#gather_candidates_cmd_input(source, root)
-  return map(a:source.arguments , '{
+function! unite#sources#rails#gather_candidates_cmd_input(command, arguments) 
+  return map(a:arguments , '{
         \ "word" : v:val.word ,
         \ "abbr" : has_key(v:val , "abbr") ? v:val.abbr : v:val.word ,
         \ "kind" : "command" ,
-        \ "action__command" : s:create_cmd_input(a:source.cmd , v:val.word) , 
+        \ "action__command" : s:create_cmd_input(a:command , v:val.word) , 
         \ }')
 endfunction
 "

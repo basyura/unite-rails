@@ -4,6 +4,30 @@
 "     [command] rake
 "
 "	  immediately
+"
+" 
+"
+" autoload/unite/sources/rails/model.vim
+"   unite#sources#rails#model#description
+"     => list for model
+"   unite#sources#rails#model#candidates
+"     [
+"       {  
+"         word   : file_name,
+"         kind   : file ,
+"         action__path      : path ,
+"         action__directory : fnamemodify(v:val.path , ":p:h") ,
+"       },
+"       {
+"         word   : command_name,
+"         kind   : command ,
+"         action__command : command_hoge
+"       },
+"       ...
+"     ]
+"
+"   source name => model
+"
 
 call unite#util#set_default('g:unite_rails_execute_cmd'  , 'VimShellExecute')
 
@@ -154,10 +178,19 @@ let s:source = {}
 " define sources
 "
 function! unite#sources#rails#define()
-  return map(s:places ,
-        \   'extend(copy(s:source),
-        \    extend(v:val, {"name": "rails/" . v:val.name,
-        \   "description": "candidates from " . v:val.name}))')
+  
+  let rel_path = 'autoload/unite/sources/rails/*.vim'
+  let names    = map(split(globpath(&runtimepath, rel_path), "\<NL>") , 
+                     \ 'fnamemodify(v:val , ":t:r")')
+  let list = []
+  for val in names
+    let source = copy(s:source)
+    let source.description = {"unite#sources#rails#" . val . "#description"}()
+    let source.name =  "rails/" . val
+    call add(list , source)
+  endfor
+
+  return list
 endfunction
 "
 " gather candidates
@@ -174,36 +207,42 @@ function! s:gather_candidates(source)
     echohl ErrorMsg | echo 'RailsRoot is not exist.' | echohl None | return [] 
   end
 
-  let type = a:source.type
+  " TODO
+  let a:source.source__rails_root = root
 
-  if type == 'dir' || type == 'file'
-    return s:gather_candidates_file(a:source , root)
-  elseif type == 'cmd'
-    return s:gather_candidates_cmd(a:source , root)
-  elseif type == 'cmd_input'
-    return s:gather_candidates_cmd_input(a:source , root)
-  else 
-   return []
-  endif
+  let func_name = "unite#sources#rails#" . 
+        \ substitute(a:source.name , 'rails/' , '' , '') . "#candidates"
+  return {func_name}(a:source)
+
+  "let type = a:source.type
+
+  "if type == 'dir' || type == 'file'
+    "return s:gather_candidates_file(a:source , root)
+  "elseif type == 'cmd'
+    "return s:gather_candidates_cmd(a:source , root)
+  "elseif type == 'cmd_input'
+    "return s:gather_candidates_cmd_input(a:source , root)
+  "else 
+   "return []
+  "endif
 
 endfunction
 "
 " gather file candidates
 "
-function! s:gather_candidates_file(source, root)
-  let target = a:root . a:source.path
+function! unite#sources#rails#gather_candidates_file(path)
 
-  if isdirectory(target)
+  if isdirectory(a:path)
     let files = []
-    for f in split(globpath(target , '**/*.*') , '\n')
+    for f in split(globpath(a:path, '**/*.*') , '\n')
       if isdirectory(f) | continue | endif
       call add(files , 
-            \ {'name' : substitute(f , target . "/" , "" , "") , 'path' : f })
+            \ {'name' : substitute(f , a:path. "/" , "" , "") , 'path' : f })
     endfor
   else
     let files = [{
-          \ "name" : fnamemodify(target , ":t") ,
-          \ "path" : target
+          \ "name" : fnamemodify(a:path, ":t") ,
+          \ "path" : a:path
           \ }]
   endif
 
@@ -217,7 +256,7 @@ endfunction
 "
 " gather cmd candidates
 "
-function! s:gather_candidates_cmd(source, root)
+function! unite#sources#rails#gather_candidates_cmd(source, root)
   return map(a:source.arguments , '{
         \ "word" : v:val.word ,
         \ "abbr" : has_key(v:val , "abbr") ? v:val.abbr : v:val.word ,
@@ -228,7 +267,7 @@ endfunction
 "
 " gather cmd input candidates
 "
-function! s:gather_candidates_cmd_input(source, root)
+function! unite#sources#rails#gather_candidates_cmd_input(source, root)
   return map(a:source.arguments , '{
         \ "word" : v:val.word ,
         \ "abbr" : has_key(v:val , "abbr") ? v:val.abbr : v:val.word ,

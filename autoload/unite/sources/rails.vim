@@ -30,9 +30,6 @@
 call unite#util#set_default('g:unite_rails_execute_cmd'  , 'VimShellExecute')
 
 let s:places =[
-  \ {'name' : 'route'       , 'type' : 'file' , 'path' : '/config/routes.rb'    } ,
-  \ {'name' : 'schema'      , 'type' : 'file' , 'path' : '/db/schema.rb'        } ,
-  \ {'name' : 'gemfile'     , 'type' : 'file' , 'path' : '/Gemfile'             } ,
   \ {'name' : 'rake'        , 'type' : 'cmd'  , 'cmd'  : 'rake' ,
       \'arguments' : [
       \ {'word' : '--tasks'           ,

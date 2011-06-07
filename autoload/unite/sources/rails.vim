@@ -27,7 +27,7 @@ let s:source = {}
 "
 function! unite#sources#rails#define()
   
-  let rel_path = 'autoload/unite/sources/rails/*.vim'
+  let rel_path = 'autoload/unite/sources/rails/collector/*.vim'
   let names    = map(split(globpath(&runtimepath, rel_path), "\<NL>") , 
                      \ 'fnamemodify(v:val , ":t:r")')
   let list = []
@@ -57,7 +57,7 @@ function! s:gather_candidates(source)
   " TODO
   let a:source.source__rails_root = root
 
-  let func_name = "unite#sources#rails#" . 
+  let func_name = "unite#sources#rails#collector#" . 
         \ substitute(a:source.name , 'rails/' , '' , '') . "#candidates"
   return {func_name}(a:source)
 endfunction

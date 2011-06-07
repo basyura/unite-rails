@@ -14,12 +14,11 @@ let s:arguments = [
       \ {'word' : 'scaffold_controller' },
       \ {'word' : 'session_migration'   },
       \ {'word' : 'stylesheets'         },
-      \ {'word' : 'jquery:install'      },
       \ ]
 "
 " gather candidates
 "
-function! unite#sources#rails#generate#candidates(source)
-  return unite#sources#rails#gather_candidates_cmd_input('rails generate' , s:arguments)
+function! unite#sources#rails#collector#destroy#candidates(source)
+  return unite#sources#rails#gather_candidates_cmd_input('rails destroy' , s:arguments)
 endfunction
 

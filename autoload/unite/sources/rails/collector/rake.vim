@@ -67,7 +67,7 @@ let s:arguments = [
 "
 " gather candidates
 "
-function! unite#sources#rails#rake#candidates(source)
+function! unite#sources#rails#rake#collector#candidates(source)
   return unite#sources#rails#gather_candidates_cmd('rake' , s:arguments)
 endfunction
 

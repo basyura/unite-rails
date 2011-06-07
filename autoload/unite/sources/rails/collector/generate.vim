@@ -20,6 +20,6 @@ let s:arguments = [
 " gather candidates
 "
 function! unite#sources#rails#collector#generate#candidates(source)
-  return unite#sources#rails#gather_candidates_cmd_input('rails generate' , s:arguments)
+  return unite#sources#rails#helper#gather_candidates_cmd_input('rails generate' , s:arguments)
 endfunction
 

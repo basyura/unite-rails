@@ -12,6 +12,6 @@ let s:arguments = [
 " gather candidates
 "
 function! unite#sources#rails#collector#bundle#candidates(source)
-  return unite#sources#rails#gather_candidates_cmd('bundle' , s:arguments)
+  return unite#sources#rails#helper#gather_candidates_cmd('bundle' , s:arguments)
 endfunction
 

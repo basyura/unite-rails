@@ -49,7 +49,7 @@ endfunction
 "
 "
 function! s:create_cmd_input(cmd, word)
-  return "call unite#sources#rails#execute_cmd_input('". a:.cmd . "','" . a:word . "')"
+  return "call unite#sources#rails#helper#execute_cmd_input('". a:.cmd . "','" . a:word . "')"
 endfunction
 "
 "

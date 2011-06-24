@@ -1,4 +1,4 @@
-let s:arguments = [
+let s:arguments_input = [
       \ {'word' : 'controller'          },
       \ {'word' : 'generator'           },
       \ {'word' : 'helper'              },
@@ -14,12 +14,18 @@ let s:arguments = [
       \ {'word' : 'scaffold_controller' },
       \ {'word' : 'session_migration'   },
       \ {'word' : 'stylesheets'         },
+      \ ]
+let s:arguments_cmd = [
       \ {'word' : 'jquery:install'      },
+      \ {'word' : 'devise:install'      },
+      \ {'word' : 'devise:views'        },
       \ ]
 "
 " gather candidates
 "
 function! unite#sources#rails#collector#generate#candidates(source)
-  return unite#sources#rails#helper#gather_candidates_cmd_input('rails generate' , s:arguments)
+  let input = unite#sources#rails#helper#gather_candidates_cmd_input('rails generate' , s:arguments_input)
+  let cmd   = unite#sources#rails#helper#gather_candidates_cmd('rails generate' , s:arguments_cmd)
+  return input + cmd
 endfunction
 

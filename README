@@ -34,6 +34,12 @@ unite /public/javascripts
 unite /public/stylesheets
   :Unite rails/stylesheets
 
+unite bundle's commands
+  :Unite rails/bundle
+
+unite bundled gems
+  :Unite rails/bundled_gem
+
 
 == maybe ==
 

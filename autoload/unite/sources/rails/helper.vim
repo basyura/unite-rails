@@ -30,7 +30,7 @@ endfunction
 function! unite#sources#rails#helper#gather_candidates_cmd(command, arguments)
   return map(a:arguments , '{
         \ "word" : v:val.word ,
-        \ "abbr" : has_key(v:val , "abbr") ? v:val.abbr : v:val.word ,
+        \ "abbr" : get(v:val , "abbr" , v:val.word) ,
         \ "kind" : "command" ,
         \ "action__command" : s:execute_cmd() . a:command . " " . v:val.word ,
         \ }')
@@ -41,20 +41,21 @@ endfunction
 function! unite#sources#rails#helper#gather_candidates_cmd_input(command, arguments) 
   return map(a:arguments , '{
         \ "word" : v:val.word ,
-        \ "abbr" : has_key(v:val , "abbr") ? v:val.abbr : v:val.word ,
+        \ "abbr" : get(v:val, "abbr", v:val.word) ,
         \ "kind" : "command" ,
-        \ "action__command" : s:create_cmd_input(a:command , v:val.word) , 
+        \ "action__command" : s:create_cmd_input(a:command, v:val.word, get(v:val, "abbr", v:val.word)) ,
         \ }')
 endfunction
 "
 "
-function! s:create_cmd_input(cmd, word)
-  return "call unite#sources#rails#helper#execute_cmd_input('". a:.cmd . "','" . a:word . "')"
+function! s:create_cmd_input(cmd, word, abbr)
+  return "call unite#sources#rails#helper#execute_cmd_input('". a:.cmd . "','" . a:word . "','" . a:abbr . "')"
 endfunction
 "
 "
-function! unite#sources#rails#helper#execute_cmd_input(cmd, word)
-  let msg = input(a:word . " : ")
+function! unite#sources#rails#helper#execute_cmd_input(cmd, word, abbr)
+  echohl PmenuSel | echo a:abbr | echohl None
+  let msg = input(": ")
   if msg == ''
     echo 'abort' | return
   endif
@@ -68,4 +69,14 @@ function! s:execute_cmd()
   else
     return g:unite_rails_execute_cmd . ' '
   endif
+endfunction
+
+
+"
+" get rails root directory
+"
+function! unite#sources#rails#helper#rails_root()
+  let dir = finddir("app" , ".;")
+  if dir == "" | return "" | endif
+  return  dir . "/../" 
 endfunction

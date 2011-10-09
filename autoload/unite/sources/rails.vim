@@ -48,7 +48,7 @@ endfunction
 "
 "
 function! s:gather_candidates(source)
-  let root = s:rails_root()
+  let root = unite#sources#rails#helper#rails_root()
   if root == "" 
     redraw
     echohl ErrorMsg | echo 'RailsRoot is not exist.' | echohl None | return [] 
@@ -60,13 +60,4 @@ function! s:gather_candidates(source)
   let func_name = "unite#sources#rails#collector#" . 
         \ substitute(a:source.name , 'rails/' , '' , '') . "#candidates"
   return {func_name}(a:source)
-endfunction
-"
-" get rails root directory
-"
-function! s:rails_root()
-  " TODO
-  let dir = finddir("app" , ".;")
-  if dir == "" | return "" | endif
-  return  dir . "/../" 
 endfunction

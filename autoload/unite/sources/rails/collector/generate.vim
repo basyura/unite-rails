@@ -1,11 +1,11 @@
 let s:arguments_input = [
-      \ {'word' : 'controller'          },
+      \ {'word' : 'controller'          , 'abbr' : 'controller    - name action'},
       \ {'word' : 'generator'           },
       \ {'word' : 'helper'              },
       \ {'word' : 'integration_test'    },
       \ {'word' : 'mailer'              },
       \ {'word' : 'migration'           },
-      \ {'word' : 'model'               },
+      \ {'word' : 'model'               , 'abbr' : 'model         - name field:type field:type'},
       \ {'word' : 'observer'            },
       \ {'word' : 'performance_test'    },
       \ {'word' : 'plugin'              },

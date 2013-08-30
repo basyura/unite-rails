@@ -29,10 +29,10 @@ unite /log
   :Unite rails/log
 
 unite /public/javascripts
-  :Unite rails/javascripts
+  :Unite rails/javascript
 
 unite /public/stylesheets
-  :Unite rails/stylesheets
+  :Unite rails/stylesheet
 
 unite bundle's commands
   :Unite rails/bundle
@@ -44,7 +44,7 @@ unite bundled gems
 == maybe ==
 
   unite routes 
-    :Unite rails/routes
+    :Unite rails/route
 
   unite root
     :Unite rails/root

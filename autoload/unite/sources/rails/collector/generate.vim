@@ -24,8 +24,9 @@ let s:arguments_cmd = [
 " gather candidates
 "
 function! unite#sources#rails#collector#generate#candidates(source)
-  let input = unite#sources#rails#helper#gather_candidates_cmd_input('rails generate' , s:arguments_input)
-  let cmd   = unite#sources#rails#helper#gather_candidates_cmd('rails generate' , s:arguments_cmd)
+  let generate_cmd = g:unite_rails#executable_prefix . ' ' . g:unite_rails#executable . 'generate'
+  let input = unite#sources#rails#helper#gather_candidates_cmd_input(generate_cmd, s:arguments_input)
+  let cmd   = unite#sources#rails#helper#gather_candidates_cmd(generate_cmd , s:arguments_cmd)
   return input + cmd
 endfunction
 

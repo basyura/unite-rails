@@ -51,7 +51,7 @@ function! s:gather_candidates(source)
   let root = unite#sources#rails#helper#rails_root()
   if root == "" 
     redraw
-    echohl ErrorMsg | echo 'RailsRoot is not exist.' | echohl None | return [] 
+    echohl ErrorMsg | echo 'RailsRoot does not exist.' | echohl None | return [] 
   end
 
   " TODO

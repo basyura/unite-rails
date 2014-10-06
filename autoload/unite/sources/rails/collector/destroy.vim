@@ -19,7 +19,7 @@ let s:arguments = [
 " gather candidates
 "
 function! unite#sources#rails#collector#destroy#candidates(source)
-  let destory_cmd = g:unite_rails#executable_prefix . ' ' . g:unite_rails#executable . 'destroy'
+  let destory_cmd = g:unite_rails#executable_prefix . ' ' . g:unite_rails#executable . ' ' . 'destroy'
   return unite#sources#rails#helper#gather_candidates_cmd_input(destory_cmd , s:arguments)
 endfunction
 

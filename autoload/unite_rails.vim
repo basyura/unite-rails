@@ -1,4 +1,4 @@
-if !exists('g:unite_rails#rails_executable_prefix')
+if !exists('g:unite_rails#executable_prefix')
   if executable('spring')
     let g:unite_rails#executable_prefix = 'spring'
   else
@@ -6,6 +6,6 @@ if !exists('g:unite_rails#rails_executable_prefix')
   end
 end
 
-if !exists('g:unite_rails#rails_executable')
+if !exists('g:unite_rails#executable')
   let g:unite_rails#executable = 'rails'
 end

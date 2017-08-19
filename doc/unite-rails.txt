@@ -33,6 +33,9 @@ unite /app/views
 unite /app/helpers
   :Unite rails/helper
 
+unite /app/jobs
+  :Unite rails/job
+
 unite /app/mailers
   :Unite rails/mailer
 

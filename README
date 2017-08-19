@@ -13,6 +13,9 @@ unite /app/views
 unite /app/helpers
   :Unite rails/helper
 
+unite /app/jobs
+  :Unite rails/job
+
 unite /app/mailers
   :Unite rails/mailer
 
@@ -43,7 +46,7 @@ unite bundled gems
 
 == maybe ==
 
-  unite routes 
+  unite routes
     :Unite rails/route
 
   unite root

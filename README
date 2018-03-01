@@ -43,6 +43,9 @@ unite bundle's commands
 unite bundled gems
   :Unite rails/bundled_gem
 
+unite /app/javascript
+  :Unite rails/webpack
+
 
 == maybe ==
 
